@@ -20,8 +20,26 @@ const lineData = [
 ];
 const initialState = {
   loaded: false,
-  plotData: lineData
+  data: lineData
 };
+
+function createLineData(data) {
+  console.log(data);
+  const rdata = {
+    names: 'serial8',
+    values: data.map((node) => {
+      console.log(node);
+      const rNode = {
+        x: node.number,
+        y: node.cpu,
+      };
+      console.log(rNode);
+      return rNode;
+    })
+  };
+  console.log(rdata);
+  return rdata;
+}
 
 export default function vision(state = initialState, action = {}) {
   switch (action.type) {
@@ -35,7 +53,8 @@ export default function vision(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: lineData
+        data: [createLineData(action.result)]
+        // data: lineData
       };
     case LOAD_FAIL:
       return {
