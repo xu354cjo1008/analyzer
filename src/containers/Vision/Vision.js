@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import rd3 from 'rd3';
 import {load} from 'redux/modules/vision';
+import {DataTable} from 'components';
 
 @connect(
   state => ({plotData: state.vision.data}),
@@ -43,6 +44,7 @@ export default class Vision extends Component {
           }}
           gridHorizontal
         />
+        <DataTable>aa</DataTable>
       </div>
     );
   }

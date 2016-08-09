@@ -1,3 +1,5 @@
+import Immutable from 'immutable';
+import faker from 'faker';
 const LOAD = 'vision/LOAD';
 const LOAD_SUCCESS = 'vision/LOAD_SUCCESS';
 const LOAD_FAIL = 'vision/LOAD_FAIL';
@@ -18,9 +20,33 @@ const lineData = [
     values: [ { x: 0, y: 0 }, { x: 1, y: 5 }, { x: 2, y: 8 }, { x: 3, y: 2 }, { x: 4, y: 6 }, { x: 5, y: 4 }, { x: 6, y: 2 } ]
   }
 ];
+
+const fakeObjectData = new Immutable.Range(0, 1000);
+const fakeObjectDataList = fakeObjectData.map((value) => (
+  {
+    id: value,
+    avatar: faker.image.avatar(),
+    city: faker.address.city(),
+    email: faker.internet.email(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    street: faker.address.streetName(),
+    zipCode: faker.address.zipCode(),
+    date: faker.date.past(),
+    bs: faker.company.bs(),
+    catchPhrase: faker.company.catchPhrase(),
+    companyName: faker.company.companyName(),
+    words: faker.lorem.words(),
+    sentence: faker.lorem.sentence(),
+  }
+));
+
+console.log(fakeObjectDataList.get(10));
+
 const initialState = {
   loaded: false,
-  data: lineData
+  data: lineData,
+  dataList: fakeObjectDataList
 };
 
 function createLineData(data) {
@@ -49,14 +75,15 @@ export default function vision(state = initialState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
+      console.log(state.dataList);
       return {
         ...state,
         loading: false,
         loaded: true,
         data: [createLineData(action.result)]
-        // data: lineData
       };
     case LOAD_FAIL:
+      console.log(state.dataList);
       return {
         ...state,
         loading: false,
@@ -76,5 +103,12 @@ export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('/vision/load')
+  };
+}
+
+export function loadDataList() {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL]
+    // promise: (client) => client.get('/vision/loadDataList')
   };
 }
