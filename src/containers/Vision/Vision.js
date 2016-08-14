@@ -44,7 +44,7 @@ export default class Vision extends Component {
           }}
           gridHorizontal
         />
-        <DataTable>aa</DataTable>
+        <DataTable />
       </div>
     );
   }
